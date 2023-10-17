@@ -1,3 +1,9 @@
+# ENV
+.venv/
+__pycache__/
+.env
+db.sqlite3
+
 # Logs
 logs
 *.log
