@@ -12,14 +12,18 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import environ
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
     DEBUG=(bool, True),
-    SECRET_KEY=(str, 'None')
+    SECRET_KEY=(str, 'None'),
+    HTTP_ROUTE=(str, 'rest/'),
+    CORS_ALLOWED_HOSTS=(str, 'http://localhost:3000')
 )
+
 environ.Env.read_env(env_file=BASE_DIR)
 
 
@@ -122,6 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL='creds.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -144,3 +149,39 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+HTTP_ROUTE = env('HTTP_ROUTE')
+
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    # 'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
+REST_AUTH = {
+    # 'SESSION_LOGIN': False
+    'TOKEN_SERIALIZER': 'creds.api.serializers.TokenSerializer',
+    'USER_DETAILS_SERIALIZER': 'creds.api.serializers.UserDetailSerializer',
+}
+
+# cors-headers
+CAH = env('CORS_ALLOWED_HOSTS')
+CORS_ALLOWED_ORIGINS = CAH.split(',')
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = list(default_headers) + ['Set-Cookie']
