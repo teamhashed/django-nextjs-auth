@@ -62,11 +62,14 @@ pip install -r requirements.txt
 
 Create a `.env` file in the `backend` directory:
 
+# ⚠️ WARNING: Example values below are for local development only.
+# DO NOT use these values in production! Replace all values with secure, production-appropriate settings.
+
 ```env
 DEBUG=True
-SECRET_KEY=your-secret-key-here
+SECRET_KEY=CHANGE-ME-IN-PRODUCTION
 HTTP_ROUTE=rest/
-CORS_ALLOWED_HOSTS=http://localhost:3000
+CORS_ALLOWED_HOSTS=CHANGE-ME-IN-PRODUCTION
 ```
 
 **Important**: Generate a secure `SECRET_KEY` for production. You can generate one using:
