@@ -116,8 +116,8 @@ Create a `.env.local` file in the `frontend` directory:
 
 ```env
 NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-nextauth-secret-here
-NEXTAUTH_BACKEND_URL=http://localhost:8000/rest/api/v1/
+NEXTAUTH_SECRET=REPLACE_ME_WITH_A_SECURE_SECRET
+NEXTAUTH_BACKEND_URL=REPLACE_ME_WITH_YOUR_BACKEND_URL
 ```
 
 **Important**: Generate a secure `NEXTAUTH_SECRET`:
